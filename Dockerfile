@@ -1,9 +1,6 @@
-FROM centos:7
+FROM nodejs:4
 
-RUN curl --silent --location https://rpm.nodesource.com/setup_6.x | bash - && \
-    yum install nodejs -y && \
-    yum clean all && \
-    npm install -g nodejs && \
+RUN npm install -g thelounge && \
     npm cache clean && \
     mkdir -p /lounge
 
