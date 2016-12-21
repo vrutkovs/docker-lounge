@@ -1,6 +1,7 @@
 FROM nodejs:4
 
-RUN npm install -g thelounge && \
+RUN sh /opt/rh/rh-nodejs4/enable && \
+    npm install -g thelounge && \
     npm cache clean && \
     mkdir -p /lounge
 
