@@ -1,21 +1,13 @@
-FROM node:6
+FROM centos:7
 
-ENV LOUNGE_VERSION 2.1.0
-ENV NODE_ENV production
+RUN curl --silent --location https://rpm.nodesource.com/setup_6.x | bash - && \
+    yum install nodejs -y && \
+    yum clean all && \
+    npm install -g nodejs && \
+    npm cache clean && \
+    mkdir -p /lounge
 
-ENV LOUNGE_HOME "/home/lounge/data"
-
-RUN mkdir -p "/home/lounge/data"
-VOLUME "/home/lounge/data"
-
-# Install thelounge.
-RUN npm install -g thelounge@${LOUNGE_VERSION}
-RUN npm cache clean
-
-# Expose HTTP.
-ENV PORT 9000
+VOLUME ["/lounge/data"]
 EXPOSE 9000
 
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["lounge", "--host", "0.0.0.0" "--port", "9000"]
